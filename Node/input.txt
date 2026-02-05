@@ -1,0 +1,7 @@
+start
+end
+NextTick Queue
+Micro task Queue
+Poll Phase
+Check Queue
+Timer Queue
