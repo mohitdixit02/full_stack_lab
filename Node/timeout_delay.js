@@ -9,6 +9,8 @@ fs.readFile = function(filename, encoding, callback) {
     }, 6000);
 };
 
+// Delay in the setTimeout execution due to task execution in the poll phase.
+
 let start_t = performance.now();
 setTimeout(()=>{
     console.log("Timer Expected Time: ", "0ms", ", Print at: ", (performance.now() - start_t).toFixed(3) + "ms");
