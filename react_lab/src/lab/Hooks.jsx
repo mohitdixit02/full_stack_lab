@@ -138,10 +138,50 @@ export default function Hooks() {
     // helps to prevent unnecessary re-renders when passing callbacks to child components.
 
     const [callbackNum, setCallBackNum] = useState(0);
-    const increaseNumber = useCallback(() => setCallBackNum(prev => prev + 1), []);
-    const decreaseNumber = useCallback(() => setCallBackNum(prev => prev - 1), []);
-    const doubleNumber = useCallback(() => setCallBackNum(prev => prev * 2), []);
+    const increaseNumber = useCallback(() => setCallBackNum(prev => prev + 1), []); // same memory reference across renders
+    const decreaseNumber = () => setCallBackNum(prev => prev - 1);
+    const doubleNumber = useCallback(() => setCallBackNum(prev => prev * 2), [callbackNum]); // memory reference changes when callbackNum changes
 
+    // **************** useRef ****************
+    // useRef returns a mutable (which can be changed) ref object whose .current property is initialized to the passed argument (initialValue).
+    // useRef can survive renders, not cause renders when updated, and has no dependency like useCallback or useMemo.
+
+    const valueRef = useRef(0);
+    const incrementRefValue = () => {
+        valueRef.current += 1;
+        console.log('Ref Value:', valueRef.current);
+    };
+
+    // Checking useCallback effect on function reference, using useRef to store the initial reference across renders
+    const increaseNumberRef = useRef(increaseNumber);
+    const decreseNumRef = useRef(decreaseNumber);
+    const doubleNumRef = useRef(doubleNumber);
+    useEffect(()=>{
+        const currentRef1 = increaseNumberRef.current;
+        const currentRef2 = decreseNumRef.current;
+        const currentRef3 = doubleNumRef.current;
+        const updatedRef1 = increaseNumber;
+        const updatedRef2 = decreaseNumber;
+        const updatedRef3 = doubleNumber;
+        if(currentRef1 !== updatedRef1){
+            console.log('increaseNumber function reference has changed');
+        }
+        else{
+            console.log('increaseNumber function reference same');
+        }
+        if(currentRef2 !== updatedRef2){
+            console.log('decreaseNumber function reference has changed');
+        }
+        else{
+            console.log('decreaseNumber function reference same');
+        }
+        if(currentRef3 !== updatedRef3){
+            console.log('doubleNumber function reference has changed');
+        }
+        else{
+            console.log('doubleNumber function reference same');
+        }
+    }, [callbackNum]);
   return (
     <div>
         <h2>React Hooks</h2>
@@ -183,14 +223,26 @@ export default function Hooks() {
         <button onClick={()=> setFibNum(fib_num + 1)}>Increment Fibonacci</button>
 
         <h4>Use Callback</h4>
-        <p>Utility functions to update the number: increase, decrease and double. </p>
-        <p>These functions are memoized using useCallback to prevent unnecessary re-creations on each render.</p>
+        <p>First function is memoized using useCallback to prevent unnecessary re-creations on each render.</p>
         <p>Current Number: {callbackNum}</p>
         <div style={{"display":"flex", "gap": "10px"}}>
             <button onClick={increaseNumber}>Increase</button>
             <button onClick={decreaseNumber}>Decrease</button>
             <button onClick={doubleNumber}>Double</button>
         </div>
+        <p>
+            Reference of increaseNumber function is same across renders due to useCallback, while decreaseNumber function reference changes on every render (console logs will show this). <br/>
+            DoubleNumber function reference changes when callbackNum changes due to useCallback dependency. <br/>
+            Also, useCallback triggers re-rendering, which changes useMemo time taken, but it preserves its own reference across renders.<br/>
+        </p>
+
+        <h4>Use Ref</h4>
+        <p>Value: {valueRef.current}</p>
+        <button onClick={incrementRefValue}>Increment Ref Value</button>
+        <p>
+            Note: Updating the ref value does not cause a re-render, the above value will not update on the screen until a re-render is triggered by some other state change. <br/>
+        </p>
+        <p>On increasing counter in useCallback section, useMemo time taken changes due to re-rendering, but it doesn't happen in case of useRef</p>
     </div>
   )
 }

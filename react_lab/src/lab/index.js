@@ -5,6 +5,9 @@ import HOC from "./HOC";
 import ConditionHook from "./ConditionHook";
 import AsyncStateUpdates from "./AsyncStateUpdates";
 import Hooks from "./Hooks";
+import ParentChildRender from "./ParentChildRender";
+import ControlledInput from "./ControlledInput";
+import KeyRender from "./KeyRender";
 
 export const Lab = {
     "batching": Batching,
@@ -13,5 +16,8 @@ export const Lab = {
     "HOC": HOC,
     "ConditionalHook": ConditionHook,
     "AsyncStateUpdates": AsyncStateUpdates,
-    "Hooks": Hooks
+    "Hooks": Hooks,
+    "ParentChildRender": ParentChildRender,
+    "MemoReference": ControlledInput,
+    "KeyRender": KeyRender
 }
