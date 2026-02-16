@@ -4,6 +4,7 @@ import { resolve } from "path";
 type Food = {
     id: number;
     name: string;
+    foodid: string;
 }
 
 type Data = {
@@ -12,11 +13,19 @@ type Data = {
     list: Food[];
 }
 
-export async function GET(request: Request) {
+export async function GET(
+        request: Request,
+        { params }: { params: Promise<{ id: string }> }
+
+    ) {
+    const id = await params.then(p => p.id);
+    console.log(`Received request for food with id:`, id);
     const foodList = [
-        { id: 1, name: "Pizza" },
-        { id: 2, name: "Burger" },
-        { id: 3, name: "Pasta" }
+        { id: 1, name: "Pizza", foodid: id },
+        { id: 2, name: "Burger", foodid: id },
+        { id: 3, name: "Pasta", foodid: id },
+        { id: 4, name: "Salad", foodid: id },
+        { id: 5, name: "Sushi", foodid: id }
     ]
     
     // 2 seconds delay

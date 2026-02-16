@@ -1,10 +1,14 @@
 type Food = {
     id: number;
     name: string;
+    foodid: string;
 }
 
 export default async function Food() {
-  const data = await fetch('http://localhost:3000/api/foods');
+  const key = Math.floor(new Date().getSeconds() * 10);
+  const data = await fetch('http://localhost:3000/api/foods/' + key);
+  const t = await data;
+  console.log(`Response from API: ${JSON.stringify(t)}`);
   const foods = await data.json();
   return (
     <div>
@@ -19,7 +23,7 @@ export default async function Food() {
       </p>
       <ul>
         {foods.list.map((food: Food) => (
-          <li key={food.id}>{food.name}</li>
+          <li key={food.id}>{food.name} - {food.foodid}</li>
         ))}
       </ul>
     </div>
