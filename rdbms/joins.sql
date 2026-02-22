@@ -81,7 +81,7 @@ FROM
 	skill_level sl
 JOIN skill_ability sa on sl.player_skill_level = sa.player_skill_level; -- player_skill_level appear two times
 
--- CROSS JOIN
+-- CROSS JOIN - Cartesian Product (All combinations of rows from both tables)
 SELECT -- total 48 rows (8 x 6)
 	*
 FROM player -- 8 rows
