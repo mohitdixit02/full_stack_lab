@@ -15,7 +15,7 @@ CREATE TABLE employee(
 -- ALTER --
 ALTER TABLE employee
 ADD COLUMN employee_email VARCHAR UNIQUE NOT NULL, -- unique and not null constraint
-ADD COLUMN employee_phone_number CHAR(10) UNIQUE, -- unique constraint
+ADD COLUMN employee_phone_number CHAR(10) UNIQUE CHECK (employee_phone_number ~ '^\d{10}$'), -- unique constraint + CHECK constraint for 10 digit phone number
 ADD COLUMN manager_id INT DEFAULT NULL, -- FOREIGN KEY COLUMN 1 + Default NULL
 ADD COLUMN manager_company_id CHAR(10) DEFAULT 'No Manager'; -- FOREIGN KEY COLUMN 2 + Default value
 
