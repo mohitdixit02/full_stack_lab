@@ -1,0 +1,12 @@
+This is Random text file
+Here is the info about solar system
+1. Sun
+2. Mercury
+3. Venus
+4. Earth
+5. Mars
+6. Jupiter
+7. Saturn
+8. Uranus
+9. Neptune
+10. Pluto
